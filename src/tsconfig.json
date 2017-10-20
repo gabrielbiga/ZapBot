@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "none",
+        "outDir": "../bin",
+        "noImplicitAny": false,
+        "strictNullChecks": false,
+        "lib": [
+            "es2016",
+            "dom"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
