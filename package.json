@@ -2,7 +2,7 @@
     "name": "zapbot",
     "version": "1.0.0",
     "author": "Gabriel Matos <gabrielbiga@me.com>",
-    "license": "BSD",
+    "license": "BSD-3-Clause",
     "main": "bot.js",
     "scripts": {
         "build": "rm -rf ./bin && tsc -p ./src && uglifyjs -m -c drop_console=true -o ./bin/bot.min.js -- ./bin/bot.js",
