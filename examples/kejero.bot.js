@@ -29,7 +29,8 @@ const names = {
     'Thiago': 'Kejero(FAKE)',
     'Emerson': 'Kingão',
     'Paulo': 'Cagão',
-    'Rafael': 'Peretta FDP'
+    'Rafael': 'Peretta_Ladrao',
+    'Andre': 'Moreno'
 };
 
 zap.sendMessage(
@@ -57,29 +58,39 @@ Pra falar cmg é só usar: *@kejero* no começo da frase.`
 
 zap.event.on('onReceive', (meta) =>
 {
-    if (!/@kejero/.test(meta.message.toLowerCase())) return;
+    const compare = (regex) => regex.test(meta.message.toLowerCase());
+
+    if (!compare(/@kejero/)) return;
 
     meta.sender = meta.me
                 ? names['Gabriel']
-                : names[senderFirstName] || meta.sender;
-    const senderFirstName = firstName(meta.sender);
+                : names[firstName(meta.sender)] || meta.sender;
 
-    if (/boa/.test(meta.message))
+    if (compare(/boa/))
     {
-        zap.sendMessage(`${senderFirstName}, a boa hoje é comer variuz keju kjkjk`);
+        zap.sendMessage(`${meta.sender}, a boa hoje é comer variuz keju kjkjk`);
     }
-    else if (/cu/.test(meta.message))
+    else if (compare(/cu/))
     {
-        zap.sendMessage(`Ow ${senderFirstName} seu fdp, vai toma no cu vc`);
+        zap.sendMessage(`Ow ${meta.sender} seu fdp, vai toma no cu vc`);
     }
-    else if (/cock/.test(meta.message))
+    else if (compare(/cock/))
     {
-        zap.sendMessage(`@${senderFirstName} COCK-COLLA 8========D`);
+        zap.sendMessage(`@${meta.sender} COCK-COLLA 8========D`);
+    }
+    else if (compare(/drone/))
+    {
+        zap.sendMessage(`@${meta.sender}, ` + [
+            'Ta nadando na praia',
+            'foda-se',
+            'vai tomar no cu',
+            'ta nadando no puteiro da sua mae'
+        ][randomInt(0, 3)]);
     }
     else
     {
         zap.sendMessage(
-            `Eae ${senderFirstName}! ${eaeMessages[randomInt(0, eaeMessages.length -1)]}`
+            `Eae ${meta.sender}! ${eaeMessages[randomInt(0, eaeMessages.length -1)]}`
         );
     }
 
