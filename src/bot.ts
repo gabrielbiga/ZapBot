@@ -6,12 +6,24 @@
     {
         private events: Map<string, Array<EventListenerFn<T>>> = new Map();
 
+        /**
+         * Register a listener for an event
+         *
+         * @param event Event name
+         * @param listener Function to be executed
+         */
         public on(event: string, listener: EventListenerFn<T>): void
         {
             if (!this.events.has(event)) this.events.set(event, []);
             this.events.get(event)!.push(listener);
         }
 
+        /**
+         * Trigger an event
+         *
+         * @param event Event name
+         * @param param Value
+         */
         public emit(event: string, param: T): void
         {
             if (this.events.has(event))
@@ -48,11 +60,19 @@
             return true;
         }
 
+        /**
+         * Buffer size
+         */
         public size(): number
         {
             return this._buffer.length;
         }
 
+        /**
+         * Check if other equal object exists
+         *
+         * @param digest Checksum number
+         */
         public exists(digest: number): boolean
         {
             return this._buffer.find(item => item.digest === digest) !== undefined;
@@ -83,7 +103,8 @@
         {
             const startNewerItem: Date = this._newerItem || new Date();
 
-            // Minute tolerance
+            // Minute tolerance to process tasks. (value in minutes)
+            // You can tweak this value if you want to handle SPAM atacks
             startNewerItem.setMinutes(startNewerItem.getMinutes() - 1);
 
             return origin
@@ -113,10 +134,6 @@
 
         // Event emitter for all messages
         public readonly event: EventEmitter<BotEvent> = new EventEmitter();
-
-        // Minute tolerance to process tasks. (value in minutes)
-        // You can tweak this value if you want to handle SPAM atacks
-        public minuteTolerance: number = 1;
 
         constructor(
             // Process messages before bot has been started
