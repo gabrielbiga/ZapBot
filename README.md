@@ -45,6 +45,7 @@ zap.sendMessage('Hello world!');
 
 Dentro da pasta "examples" você pode encontrar mais exemplos de utilização:
 
+* joao-paulo.bot - Bot sobre o meme do Joao Paulo by @GabrielCoelho
 * kejero.bot - Homenagem ao mano Kejero
 * marmita.bot - Automatização dos pedidos de marmitex
 * responde.bot - Bot chato
@@ -55,6 +56,7 @@ Dentro da pasta "examples" você pode encontrar mais exemplos de utilização:
 - [X] Enviar mensagens (Baseado no gist do @mathloureiro: https://gist.github.com/mathloureiro/4c74d60f051ed59650cc76d1da0d32da)
 - [X] Receber mensagens
 - [X] Implementar listeners
+- [ ] Escutar e enviar mensagens para mais de um grupo ou pessoa
 - [ ] Enviar imagens
 - [ ] Testes unitários
 - [ ] Build melhor (gulp)

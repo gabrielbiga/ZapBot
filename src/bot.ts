@@ -205,7 +205,12 @@
             // Parse the new data
             const receivedMessages: Array<ReceiveEvent> = lastMessages.map((bubbleElem: Element) =>
             {
-                const bubbleMetadata: string = bubbleElem.querySelector('.bubble').getAttribute('data-pre-plain-text');
+                const bubbleElement: Element = bubbleElem.querySelector('.bubble');
+
+                // Validate a real bubble box
+                if (!bubbleElement) return null;
+
+                const bubbleMetadata: string = bubbleElement.getAttribute('data-pre-plain-text');
 
                 const parsedMessage: ReceiveEvent = {
                     me: bubbleElem.classList.contains('message-out'),
@@ -221,6 +226,8 @@
 
                 return parsedMessage;
             })
+            // Eliminate gaps (invalid bubbles)
+            .filter((newMessage: ReceiveEvent) => Boolean(newMessage))
             // Filter messages dont sended by the bot
             .filter((newMessage: ReceiveEvent) => this._messagesEmitted[this.hashCode(newMessage.message, true)] === undefined);
 
