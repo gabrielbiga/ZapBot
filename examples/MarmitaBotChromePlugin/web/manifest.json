@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+
+    "name": "MarmitaBot Plugin",
+    "description": "Enable MarmitaBot",
+    "version": "1.6",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "marmita.html"
+    },
+    "permissions": [
+        "<all_urls>",
+        "activeTab",
+        "background",
+        "webNavigation",
+        "webRequest",
+        "webRequestBlocking"
+    ]
+}

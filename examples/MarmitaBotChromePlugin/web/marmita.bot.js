@@ -4,8 +4,57 @@
 
 // Instancia do Bot
 const zap = new ZapBot();
-// BD
-const db = new Map();
+
+// Implementacao de mapa usando localStorage
+const marmitaDB = new class Database
+{
+    constructor()
+    {
+        this.localDate = new Date().toLocaleString().split(' ').shift();
+
+        if (localStorage.getItem('lastMarmita') !== this.localDate)
+        {
+            this.clear();
+        }
+
+        this.data = JSON.parse(localStorage.getItem('marmitaData')) || {};
+    }
+
+    clear()
+    {
+        this.data = {};
+
+        localStorage.setItem('lastMarmita', this.localDate);
+        this.save();
+    }
+
+    get(key)
+    {
+        return this.data[key];
+    }
+
+    set(key, value)
+    {
+        this.data[key] = value;
+
+        this.save();
+    }
+
+    keys()
+    {
+        return Object.keys(this.data);
+    }
+
+    has(key)
+    {
+        return this.data[key] !== undefined;
+    }
+
+    save()
+    {
+        localStorage.setItem('marmitaData', JSON.stringify(this.data));
+    }
+}
 
 /**
  * Automatizacao dos pedidos de marmitex
@@ -16,7 +65,7 @@ function parseMessage(message)
     const messageSplited = message.replace('@marmita', '').trim().split(',');
 
     return {
-        vendor: messageSplited[0],
+        vendor: messageSplited[0].toLowerCase(),
         description: messageSplited[1]
     }
 }
@@ -24,11 +73,11 @@ function summary()
 {
     let summary = '';
 
-    Array.from(db.keys()).forEach(key =>
+    Array.from(marmitaDB.keys()).forEach(key =>
     {
-        const vendor = db.get(key);
+        const vendor = marmitaDB.get(key);
 
-        summary += `*${key}*`;
+        summary += `*${key.toUpperCase()}* - Pq Tec - ${new Date().toLocaleString().split(' ').shift()}`;
         summary += "\n\n";
         vendor.forEach(order => summary += `${order.owner} - ${order.description} \n`);
         summary += "\n\n";
@@ -56,7 +105,7 @@ zap.event.on('onReceive', (meta) =>
 
     if (firstName(meta.sender) === '+55')
     {
-        return zap.sendMessage('Não tenho seu numero cadastrado! :(');
+        return zap.sendMessage(`Ei ${meta.sender}, não tenho seu numero cadastrado e infelizmente não posso te ajudar. :(`);
     }
 
     if (/resumo/.test(meta.message))
@@ -79,12 +128,12 @@ zap.event.on('onReceive', (meta) =>
 
     const message = parseMessage(meta.message);
 
-    if (!db.has(message.vendor))
+    if (!marmitaDB.has(message.vendor))
     {
-        db.set(message.vendor, []);
+        marmitaDB.set(message.vendor, []);
     }
 
-    const vendorSector = db.get(message.vendor);
+    const vendorSector = marmitaDB.get(message.vendor);
 
     const existingOrder = vendorSector
         .find(order => order.owner === firstName(meta.sender));
@@ -97,7 +146,9 @@ zap.event.on('onReceive', (meta) =>
     vendorSector.push({
         owner: firstName(meta.sender),
         description: message.description
-    })
+    });
+
+    marmitaDB.save();
 
     zap.sendMessage(`Marmot do ${firstName(meta.sender)} lanchada!!`);
     zap.sendMessage(summary());
