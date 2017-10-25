@@ -45,6 +45,7 @@ zap.sendMessage('Hello world!');
 
 Dentro da pasta "examples" você pode encontrar mais exemplos de utilização:
 
+* backend.bot - Integração com ZapBot + Chrome Extension + Node.JS 7+ (KOA)
 * joao-paulo.bot - Bot sobre o meme do Joao Paulo by @GabrielCoelho
 * kejero.bot - Homenagem ao mano Kejero
 * marmita.bot - Automatização dos pedidos de marmitex

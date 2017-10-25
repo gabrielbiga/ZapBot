@@ -1,0 +1,15 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.3.0",
+    "koa-body": "^2.5.0",
+    "koa-http-request": "^2.2.0",
+    "koa-router": "^7.2.1"
+  },
+  "scripts":{
+    "start": "node --harmony-async-await index.js"
+  }
+}
